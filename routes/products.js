@@ -47,4 +47,28 @@ router.get('/:id', (req, res) => {
   })
 })
 
+/* En el método POST, req.body es una propiedad en Express.js
+y otros frameworks web que contiene los datos enviados en el cuerpo de una solicitud HTTP.
+En particular, se utiliza para acceder a los datos enviados en un formulario HTML o
+en una solicitud JSON en el cuerpo de la solicitud POST.
+
+Cuando se envía una solicitud POST desde un formulario HTML o una aplicación cliente,
+los datos que el usuario ingresa (como texto, números, selecciones, etc.)
+se incluyen en el cuerpo de la solicitud.
+El servidor puede utilizar req.body para acceder y procesar estos datos.
+
+Por ejemplo:
+
+app.post('/submit', (req, res) => {
+  const inputData = req.body;   // Datos enviados en el cuerpo de la solicitud
+                                // Puedes procesar los datos y responder en consecuencia
+});  */
+router.post('/', (req, res) => {
+  const body = req.body
+  res.json({
+    message: 'created',
+    data: body
+  })
+})
+
 module.exports = router;
