@@ -1,6 +1,7 @@
 const express = require('express');
-const { faker } = require('@faker-js/faker');
+const ProductsService = require('../services/products')
 const router = express.Router();
+const service = new ProductsService();
 
 /*  Los parámetros de consulta (query parameters) son una forma de pasar información adicional
     en una URL después del signo de interrogación (?). Estos parámetros se utilizan para ajustar y
@@ -8,16 +9,7 @@ const router = express.Router();
     Los parámetros de consulta son muy comunes en las aplicaciones web
     y APIs para manejar diferentes requerimientos y opciones.  */
 router.get('/', (req, res) => {
-  const products = []
-  const { size } = req.query
-  const limit = size || 10
-  for (let index = 0; index < limit; index++) {
-    products.push({
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price(), 10),
-      image: faker.image.url()
-    })
-  }
+  const products = service.find()
   res.json(products)
 })
 
@@ -40,17 +32,8 @@ router.get('/filter', (req, res) => {
     lo asigna a la variable id, lo que hace que sea más fácil trabajar con ese valor en tu código. */
 router.get('/:id', (req, res) => {
   const { id } = req.params
-  if (id === '999') {
-    res.status(404).json({
-      message: 'not found'
-    })
-  } else {
-    res.status(200).json({
-      id,
-      name: 'Product 2',
-      price: 2000
-    })
-  }
+  const product = service.findOne(id)
+  res.json(product)
 })
 
 /* En el método POST, req.body es una propiedad en Express.js
