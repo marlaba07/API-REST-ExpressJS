@@ -1,0 +1,7 @@
+HTTP response status codes:
+Rangos.
+100 a 199 Informational responses [Los más conocidos: 100]
+200 a 299 Successful responses    [200 (Todo OK), 201 (Creación exitosa)]
+300 a 399 Redirection messages    []
+400 a 499 Client error responses  [404 Not Found]
+500 a 599 Server error responses  []
