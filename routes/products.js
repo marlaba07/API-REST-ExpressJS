@@ -71,4 +71,22 @@ router.post('/', (req, res) => {
   })
 })
 
+router.patch('/:id', (req, res) => {  // Puedo utilizar patch o put, son similares.
+  const { id } = req.params
+  const body = req.body
+  res.json({
+    message: 'updated',
+    data: body,
+    id
+  })
+})
+
+router.patch('/:id', (req, res) => {  // Puedo utilizar patch o put, son similares.
+  const { id } = req.params
+  res.json({
+    message: 'delete',
+    id
+  })
+})
+
 module.exports = router;
