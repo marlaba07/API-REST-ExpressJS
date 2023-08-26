@@ -1,6 +1,7 @@
 const express = require('express');
-const ProductsService = require('../services/products')
 const router = express.Router();
+
+const ProductsService = require('../services/products')
 const service = new ProductsService();
 
 /*  Los parámetros de consulta (query parameters) son una forma de pasar información adicional
@@ -53,29 +54,22 @@ app.post('/submit', (req, res) => {
                                 // Puedes procesar los datos y responder en consecuencia
 });  */
 router.post('/', (req, res) => {
-  const body = req.body
-  res.status(201).json({
-    message: 'created',
-    data: body
-  })
+  const body = req.body;
+  const newProduct = service.create(body)
+  res.status(201).json(newProduct);
 })
 
 router.patch('/:id', (req, res) => {  // Puedo utilizar patch o put, son similares.
   const { id } = req.params
   const body = req.body
-  res.json({
-    message: 'updated',
-    data: body,
-    id
-  })
+  const product = service.update(id, body);
+  res.json(product)
 })
 
 router.patch('/:id', (req, res) => {  // Puedo utilizar patch o put, son similares.
   const { id } = req.params
-  res.json({
-    message: 'delete',
-    id
-  })
+  const rta = service.delete(id);
+  res.json(rta)
 })
 
 module.exports = router;
