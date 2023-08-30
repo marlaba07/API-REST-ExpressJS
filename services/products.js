@@ -49,7 +49,7 @@ class ProductsService {
   }
 
   find() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.products)
       }, 5000)
@@ -57,6 +57,7 @@ class ProductsService {
   }
 
   async findOne(id) {
+    // const name = this.getTotal();    --> Error para probar los middleware
     return this.products.find(item => item.id === id);
   }
 

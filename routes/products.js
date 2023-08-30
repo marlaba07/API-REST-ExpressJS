@@ -31,10 +31,17 @@ router.get('/filter', (req, res) => {
     Ahora puedes usar simplemente id en lugar de req.params.id para acceder al valor capturado en la URL.
     En resumen, const { id } = req.params está tomando el valor de id capturado de la URL y
     lo asigna a la variable id, lo que hace que sea más fácil trabajar con ese valor en tu código. */
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   const { id } = req.params
-  const product = await service.findOne(id)
-  res.json(product)
+
+  try {
+    const product = await service.findOne(id)
+    res.json(product)
+  } catch (error) {
+    next(error)
+  }
+
+
 })
 
 /* En el método POST, req.body es una propiedad en Express.js
