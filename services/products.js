@@ -12,13 +12,22 @@ const { faker } = require('@faker-js/faker');
 
   En resumen, los servicios en Node.js son componentes modulares que encapsulan funcionalidades
   específicas de la aplicación, mejorando la organización y el mantenimiento del código.*/
+
+/* Los servicios suelen ser, en su mayoria, asincronos.
+Node tiene una gran habilidad para correr las cosas de forma asíncrona
+y porque normalmente normalmente para obtener los datos, los vamos a obtener
+de fuentes externas (librerias, API, mongoDB, postgre, etc).
+
+Para hacerlo de manera asincronica usamos el async y al await. (Repasar promesas).
+Siempre que tenemos async tenemos que utilizar inevitablemente await. */
+
 class ProductsService {
   constructor() {
     this.products = [];
     this.generate();
   }
 
-  generate() {
+  async generate() {
     const limit = 100;
     for (let index = 0; index < limit; index++) {
       this.products.push({
@@ -30,24 +39,28 @@ class ProductsService {
     }
   }
 
-  create(data) {
+  async create(data) {
     const newProduct = {
       id: faker.string.uuid(),
       ...data
     }
-    this.products.push(newProduct);
+    this.products.push(newProduct);   // En vez de un push puedo llamar a una base de datos.  await bd.add(newProduct) -> { nombre: pedro}
     return newProduct;
   }
 
   find() {
-    return this.products;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.products)
+      }, 5000)
+    })
   }
 
-  findOne(id) {
+  async findOne(id) {
     return this.products.find(item => item.id === id);
   }
 
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
       throw new Error('product not found');
@@ -60,7 +73,7 @@ class ProductsService {
     return this.products[index];
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
       throw new Error('product not found');
