@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const ProductsService = require('../services/products')
+const validatorHandler = require('../middlewares/validator.handler')
+const { createProductSchema, updateProductSchema, getProductSchema } = require('../schemas/product')
+
 const service = new ProductsService();
 
 /*  Los parámetros de consulta (query parameters) son una forma de pasar información adicional
@@ -31,9 +34,8 @@ router.get('/filter', (req, res) => {
     Ahora puedes usar simplemente id en lugar de req.params.id para acceder al valor capturado en la URL.
     En resumen, const { id } = req.params está tomando el valor de id capturado de la URL y
     lo asigna a la variable id, lo que hace que sea más fácil trabajar con ese valor en tu código. */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', validatorHandler(getProductSchema, 'params'), async (req, res, next) => {
   const { id } = req.params
-
   try {
     const product = await service.findOne(id)
     res.json(product)
@@ -58,16 +60,16 @@ app.post('/submit', (req, res) => {
   const inputData = req.body;   // Datos enviados en el cuerpo de la solicitud
                                 // Puedes procesar los datos y responder en consecuencia
 });  */
-router.post('/', async (req, res) => {
+router.post('/', validatorHandler(createProductSchema, 'body'), async (req, res) => {
   const body = req.body;
   const newProduct = await service.create(body)
   res.status(201).json(newProduct);
 })
 
-router.patch('/:id', async (req, res, next) => {  // Puedo utilizar patch o put, son similares.
+// Puedo utilizar patch o put, son similares.
+router.patch('/:id', validatorHandler(getProductSchema, 'params'), validatorHandler(updateProductSchema, 'body'), async (req, res, next) => {
   const { id } = req.params
   const body = req.body
-
   try {
     const product = await service.update(id, body);
     res.json(product)
@@ -76,10 +78,11 @@ router.patch('/:id', async (req, res, next) => {  // Puedo utilizar patch o put,
   }
 })
 
-router.patch('/:id', async (req, res) => {  // Puedo utilizar patch o put, son similares.
+router.patch('/:id', async (req, res) => {
   const { id } = req.params
   const rta = await service.delete(id);
   res.json(rta)
 })
 
 module.exports = router;
+

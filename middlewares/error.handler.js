@@ -1,6 +1,5 @@
 /* Middleware para HttpErrors*/
 
-// Función para logear errores.
 function logErrors(err, req, res, next) {
   console.error(err)
   next(err)
@@ -13,7 +12,6 @@ function logErrors(err, req, res, next) {
   Si lo usamos sin nada como parametro es un middleware normal. */
 }
 
-// Funcion para crear un formato cada vez que tenemos un error en nuestra apliacación.
 function errorHandler(err, req, res, next) {
   res.status(500).json({
     message: err.message,
@@ -21,6 +19,9 @@ function errorHandler(err, req, res, next) {
   })
 }
 
+/* La librería "Boom" en Node.js ayuda a manejar y enviar errores de manera ordenada en aplicaciones web.
+Facilita la creación de mensajes de error con información detallada para comunicar problemas de manera más clara a los usuarios o desarrolladores que usan la aplicación.
+En resumen, Boom simplifica la gestión de errores en Node.js.*/
 function boomErrorHandler(err, req, res, next) {
   if (err.isBoom) {
     const { output } = err;

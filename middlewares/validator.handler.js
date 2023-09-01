@@ -5,12 +5,13 @@ Ayudan en tareas como la autenticación, validación de datos y manejo de errore
 En resumen, los middlewares son como filtros que hacen que tu aplicación funcione suavemente. */
 function validatorHandler(schema, property) {
   return (req, res, next) => {
-    const data = req[property]
-    const error = schema.validate(data)
+    const data = req[property];
+    // Con agregarle '{ abortEarly: false }' conseguimos que muestre todos los errores que puedan suceder y no uno a uno como hace por default joi.
+    const { error } = schema.validate(data, { abortEarly: false });
     if (error) {
-      next(boom.badRequest(error))
+      next(boom.badRequest(error));
     }
-    next()
+    next();
   }
 }
 
