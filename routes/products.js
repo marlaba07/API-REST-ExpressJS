@@ -40,8 +40,6 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-
-
 })
 
 /* En el método POST, req.body es una propiedad en Express.js
@@ -66,7 +64,7 @@ router.post('/', async (req, res) => {
   res.status(201).json(newProduct);
 })
 
-router.patch('/:id', async (req, res) => {  // Puedo utilizar patch o put, son similares.
+router.patch('/:id', async (req, res, next) => {  // Puedo utilizar patch o put, son similares.
   const { id } = req.params
   const body = req.body
 
@@ -74,9 +72,7 @@ router.patch('/:id', async (req, res) => {  // Puedo utilizar patch o put, son s
     const product = await service.update(id, body);
     res.json(product)
   } catch (error) {
-    res.status(404).json({
-      message: error.message
-    })
+    next(error)
   }
 })
 
