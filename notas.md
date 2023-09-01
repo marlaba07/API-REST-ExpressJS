@@ -16,16 +16,15 @@ el middleware agiliza el desarrollo de aplicaciones y acelera el tiempo de comer
 # Ejemplo
 
 _Aparecen como tercer parametro en nuestros callback's dónde utilizamos response y request_
-
-$ INICIO CÓDIGO.
+$INICIO CÓDIGO.
 function(req, res, next){
-if(something){
-res.send('end')
-} else {
-next();
+  if(something){
+    res.send('end')
+  } else {
+    next();
+  }
 }
-}
-$ FIN CÓDIGO.
+$FIN CÓDIGO.
 
 _Hay de tipo error también, donde tenemos que tener 4 parametros_
 $INICIO CÓDIGO
@@ -66,3 +65,12 @@ _Lista de Midlewares más populares en Express_
   https://github.com/jaredhanson/passport
 
 Puedes encontrar más middlewares populares en el siguiente enlace: http://expressjs.com/en/resources/middleware.html
+
+_Recomendaciones para producción_
+
+- Cors
+- HTTPS
+- PROCESOS DE BUILD
+- REMOVER LOGS
+- SEGURIDAD (HELMET)
+- TESTING
